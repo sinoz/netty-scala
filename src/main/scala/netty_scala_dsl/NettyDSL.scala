@@ -12,7 +12,6 @@ import io.netty.channel._
 
 /** A mixin that provides flexible functions that form the networking DSL. */
 trait NettyDSL extends NettyAliases {
-
   def newServerChannel(f: ServerBootstrap => Unit) = Epoll.isAvailable match {
     case true => newNativeServerChannel(f)
     case false => newNIOServerChannel(f)
@@ -60,6 +59,9 @@ trait NettyDSL extends NettyAliases {
 
   def option[T](option: ChannelOption[T], value: T)(implicit bootstrap: ServerBootstrap): Unit =
     bootstrap.option(option, value)
+
+  def +=(k: (String, ChannelHandler))(implicit pipeline: ChannelPipeline): Unit =
+    pipeline.addLast(k._1, k._2)
 
   def initializer(init: ChannelPipeline => Unit)(implicit bootstrap: ServerBootstrap): Unit =
     remoteChannelHandler(new ChannelInitializer[SocketChannel] {
