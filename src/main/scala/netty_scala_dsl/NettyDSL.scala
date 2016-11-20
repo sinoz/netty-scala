@@ -3,6 +3,7 @@ package netty_scala_dsl
 import java.net.{InetSocketAddress, SocketAddress}
 
 import io.netty.bootstrap.ServerBootstrap
+import io.netty.channel.ChannelOption
 import io.netty.channel.epoll.{Epoll, EpollServerSocketChannel}
 import io.netty.channel.socket.nio.NioServerSocketChannel
 
@@ -38,4 +39,16 @@ trait NettyDSL extends NettyAliases {
 
   def localAddress(address: SocketAddress)(implicit bootstrap: ServerBootstrap): Unit =
     bootstrap.localAddress(address)
+
+  def keepAlive(enabled: Boolean = FALSE)(implicit bootstrap: ServerBootstrap): Unit =
+    option(ChannelOption.SO_KEEPALIVE, enabled)
+
+  def tcpNoDelay(enabled: Boolean = TRUE)(implicit bootstrap: ServerBootstrap): Unit =
+    option(ChannelOption.TCP_NODELAY, enabled)
+
+  def option[T](option: ChannelOption[T], value: T)(implicit bootstrap: ServerBootstrap): Unit =
+    bootstrap.option(option, value)
+
+  val TRUE = java.lang.Boolean.TRUE
+  val FALSE = java.lang.Boolean.FALSE
 }
