@@ -34,7 +34,18 @@ As you've probably noticed, the `bootstrap` parameter is marked `implicit`. This
 newServerChannel { implicit bootstrap =>
     localAddress(8080)
     tcpNoDelay()
-  }
+}
+```
+
+Please keep in mind that `newServerChannel` and its variants are all synchronous operations and must externally be wrapped into a separate Future if you happen to frequently establish connections.
+
+#### Initialization of Remote `SocketChannel`s
+Apart from making your life easier, this API also aims for complete freedom in configuring your channels. Netty forces you to provide your own child `ChannelHandler`. We do not as this API comes with an internal default placeholder channel event handler. However, if you do wish to customize your own `ChannelInitializer` and subordinate `ChannelHandler`s, you can do so:
+
+```
+initializer { implicit pipeline =>
+    // ...
+}
 ```
 
 TODO: the rest
