@@ -1,11 +1,9 @@
-# Scala DSL for Netty
-A very thin layer on top of Netty to provide a small Scala based networking DSL to make the lives of Scala developers a tiny bit easier.
+# Scala for Netty
+A very thin Scala based layer built on top of Netty to make the lives of Scala developers a tiny bit easier.
 
 ### How to use
-The goal behind this DSL is to make all of your code as compact as possible so you do not have to worry about having tens of different classes to achieve your goal. In this case, the local or remote networking within your application. Currently, the DSL only provides ways to establish a server channel. Support for clients is coming soon.
-
-#### Client Channels
-TODO
+The purpose of this thin layer is to make all of your code as compact as possible, so you do not have to worry about having tens of different classes or files to achieve high performance networking as you would with Java.
+We currently only provide ways to establish a server channel. Support for clients will be included in a future release.
 
 #### Server Channels
 To establish a NIO based server channel:
@@ -32,7 +30,7 @@ newServerChannel { implicit bootstrap =>
 }
 ```
 
-As you've probably noticed, the `bootstrap` parameter is marked `implicit`. This is done on purpose as the DSL provides configuration functions to make your code even clearer. As is demonstrated here:
+As you've probably noticed, the `bootstrap` parameter is marked `implicit`. This is done on purpose as the API provides configuration functions to make your code even clearer. As is demonstrated here:
 
 ```
 newServerChannel { implicit bootstrap =>
